@@ -28,7 +28,6 @@ namespace JogoForca
     /// </summary>
     public sealed partial class MainPage : Page
     {
-		private string currentHangmanImgSource;
 		private Hangman hangman;
 
         public MainPage()
@@ -36,6 +35,7 @@ namespace JogoForca
             this.InitializeComponent();
         }
 
+		// Evento de clique de um botão de letra
 		private void btnLetter_Click(object sender, RoutedEventArgs e)
 		{
 			Button btn = (Button)sender;
@@ -53,7 +53,27 @@ namespace JogoForca
 				ChangeHangmanPicture(nErrors);
 			}
 
+			int gameEnd = hangman.CheckEndGame();
+
+			// Checa se o jogo acabou
+			if (gameEnd == 0)
+				return;
+			else if (gameEnd == 1)
+			{
+				txtInstruction.Text = "Você venceu! =D";
+			}
+			else if (gameEnd == 2)
+			{
+				txtInstruction.Text = "Você perdeu =(";
+			}
+
+
+			txtInstruction.Visibility = Visibility.Visible;
+			btnStart.Visibility = Visibility.Collapsed;
+			btnRestart.Visibility = Visibility.Visible;
+
 			return;
+
 		}
 
 		private void FillLetterBoxes()
@@ -80,6 +100,7 @@ namespace JogoForca
 
 			Uri uri;
 
+			// Seleciona a url da imagem correta
 			switch (errors)
 			{
 				case 1:
@@ -121,6 +142,7 @@ namespace JogoForca
 
 		}
 
+		// Inicia o jogo
 		private void btnStart_Click(object sender, RoutedEventArgs e)
 		{
 			string word = tbPalavra.Text;
@@ -132,16 +154,54 @@ namespace JogoForca
 			txtInstruction.Visibility = Visibility.Collapsed;
 
 			CreateLettersBoxes();
+			SetLetterButtons(true);
+		}
+		
+		// Reinicia o jogo
+		private void btnRestart_Click(object sender, RoutedEventArgs e)
+		{
+			tbPalavra.Text = "";
+			tbPalavra.Visibility = Visibility.Visible;
+			txtInstruction.Text = "Insira uma palavra";
+
+			StackWord.Children.Clear();
+			SetLetterButtons(false);
+
+			ChangeHangmanPicture(0);
+
+			btnStart.Visibility = Visibility.Visible;
+			btnRestart.Visibility = Visibility.Collapsed;
 		}
 
+		// Seta os todos botões de letras como enabled ou não
+		private void SetLetterButtons(bool isEnabled)
+		{
+			int n = VisualTreeHelper.GetChildrenCount(StackLetters);
+
+			for (int i = 0; i < n; i++)
+			{
+				StackPanel sp = (StackPanel)VisualTreeHelper.GetChild(StackLetters, i);
+				int n2 = VisualTreeHelper.GetChildrenCount(sp);
+
+				for (int j = 0; j < n2; j++)
+				{
+					Button btn = (Button)VisualTreeHelper.GetChild(sp, j);
+					btn.IsEnabled = isEnabled;
+				}
+
+			}
+		}
+
+		// Crias os Grids onde irão aparecer as letras
 		private void CreateLettersBoxes()
 		{
 			StackPanel sp = StackWord;
 
-			int length = hangman.GetWordLength();
+			int length = hangman.WordLength;
 
 			for (int i = 0; i < length; i++)
 			{
+				// É criado um Grid com um TexBlock dentro dele
 				Grid g = new Grid();
 				g.Margin = new Thickness(2);
 				g.Height = 30;
@@ -157,6 +217,18 @@ namespace JogoForca
 				g.Children.Add(txt);
 				sp.Children.Add(g);
 			}
+		}
+
+		// Checa se existe texto na Texbox de entrada e se ele contém apenas letras
+		private void tbPalavra_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+		{
+			string palavra = sender.Text;
+
+			// Verifica se existe o texto e se o texto contém apenas letras
+			if (palavra.Length > 0 && palavra.All(x => char.IsLetter(x)))
+				btnStart.IsEnabled = true;
+			else
+				btnStart.IsEnabled = false;
 		}
 	}
 }

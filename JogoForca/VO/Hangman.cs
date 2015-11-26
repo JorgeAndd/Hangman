@@ -10,42 +10,39 @@ namespace JogoForca.VO
 	class Hangman
 	{
 		private string word;
+		public int WordLength { get; }
 		private char?[] guessedLetters;
-		private int errors;
-		private List<char> wrongLetters;
-		private List<char> correctLetters;
+		private int errorCount;
+		private int correctCount;
 
 		public Hangman(string word)
 		{
-			int size = word.Length;
-			guessedLetters = new char?[size];
+			WordLength = word.Length;
+			guessedLetters = new char?[WordLength];
 			this.word = word;
 
-			errors = 0;
+			errorCount = 0;
+			correctCount = 0;
 
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < WordLength; i++)
 			{
 				guessedLetters[i] = null;
 			}
 		}
 
+		// Retorna um array de char? com as letras já descobertas
 		public char?[] GetGuessedLetters()
 		{
 			return guessedLetters;
 		}
 
-		public void SetWord(string word)
-		{
-			this.word = word;
-		}
-
+		// Verifica se uma letra está presente na palavra
+		// Retorna true se está, caso contrário retorna falso
 		public bool TryLetter(char letter)
 		{
 
 			bool guessedCorrectly = false;
 			int size = word.Length;
-
-			letter = letter.ToString().Normalize(NormalizationForm.FormD)[0];
 
 			for (int i = 0; i < size; i++)
 			{
@@ -56,24 +53,36 @@ namespace JogoForca.VO
 				{ 
 					guessedLetters[i] = word[i];
 					guessedCorrectly = true;
+					correctCount++;
 				}
 
 			}
 
 			if (guessedCorrectly == false)
-				errors++;
+				errorCount++;
 
 			return guessedCorrectly;
 		}
 
-		public int GetWordLength()
+		// Verifica se o jogo terminou
+		// Retorna:
+		// 0: Se o jogo não terminou
+		// 1: Se o jogador venceu
+		// 2: Se o jogador perdeu
+		public int CheckEndGame()
 		{
-			return word.Length;
+			if (errorCount >= 6)
+				return 2;
+			if (correctCount >= WordLength)
+				return 1;
+
+			return 0;
 		}
 
+		// Retorna o número de erros que o jogador cometeu
 		public int GetErrorCount()
 		{
-			return errors;
+			return errorCount;
 		}
 	}
 }

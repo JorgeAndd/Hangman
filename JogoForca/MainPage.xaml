@@ -1,16 +1,18 @@
 ﻿<Page
+    x:Name="GamePage"
     x:Class="JogoForca.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:JogoForca"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Margin="3,0,-3,0">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <TextBlock Text="Forca" Style="{StaticResource HeaderTextBlockStyle}" Margin="10,0,10,20"/>
-        
+
         <Rectangle x:Name="recHangman" Height="200" Width="200" HorizontalAlignment="Center">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/Assets/Graphics/hang_initial.jpg" Stretch="Fill"/>
@@ -21,47 +23,54 @@
 
         </StackPanel>
 
-        <TextBlock x:Name="txtInstruction" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Insira uma palavra" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <TextBox x:Name="tbPalavra" Margin ="30, 5, 30, 5" TextWrapping="Wrap" Text=""/>
-        <Button x:Name="btnStart" Margin ="40, 5, 40, 5" Content="Iniciar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnStart_Click"/>
-        
-        <StackPanel x:Name="StackLetters" Margin="0, 30, 0, 0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button x:Name="btnLetterQ" Tag="Q" Content="Q" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterW" Tag="W" Content="W" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterE" Tag="E" Content="E" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterR" Tag="R" Content="R" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterT" Tag="T" Content="T" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterY" Tag="Y" Content="Y" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterU" Tag="U" Content="U" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterI" Tag="I" Content="I" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterO" Tag="O" Content="O" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterP" Tag="P" Content="P" Click="btnLetter_Click"/>
-            </StackPanel>
+        <StackPanel>
+            <TextBlock x:Name="txtInstruction" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Insira uma palavra" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBox x:Name="tbPalavra" Margin ="100, 5, 100, 5" TextWrapping="NoWrap" Text="" MaxLength="15" TextChanging="tbPalavra_TextChanging"/>
+            <Button x:Name="btnStart" Margin ="150, 5, 150, 5" Content="Iniciar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                    Click="btnStart_Click" IsEnabled="False"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button x:Name="btnLetterA" Tag="A" Content="A" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterS" Tag="S" Content="S" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterD" Tag="D" Content="D" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterF" Tag="F" Content="F" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterG" Tag="G" Content="G" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterH" Tag="H" Content="H" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterJ" Tag="J" Content="J" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterK" Tag="K" Content="K" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterL" Tag="L" Content="L" Click="btnLetter_Click"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button x:Name="btnLetterZ" Tag="Z" Content="Z" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterX" Tag="X" Content="X" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterC" Tag="C" Content="C" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterV" Tag="V" Content="V" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterB" Tag="B" Content="B" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterN" Tag="N" Content="N" Click="btnLetter_Click"/>
-                <Button x:Name="btnLetterM" Tag="M" Content="M" Click="btnLetter_Click"/>
-            </StackPanel>
+                <Button x:Name="btnRestart" Margin ="150, 5, 150, 5" Content="Jogar novamente" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                    Click="btnRestart_Click" Visibility="Collapsed"/>
         </StackPanel>
         
+
+        <StackPanel x:Name="StackLetters" Margin="0, 30, 0, 0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button x:Name="btnLetterQ" Tag="Q" Content="Q" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterW" Tag="W" Content="W" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterE" Tag="E" Content="E" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterR" Tag="R" Content="R" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterT" Tag="T" Content="T" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterY" Tag="Y" Content="Y" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterU" Tag="U" Content="U" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterI" Tag="I" Content="I" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterO" Tag="O" Content="O" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterP" Tag="P" Content="P" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button x:Name="btnLetterA" Tag="A" Content="A" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterS" Tag="S" Content="S" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterD" Tag="D" Content="D" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterF" Tag="F" Content="F" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterG" Tag="G" Content="G" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterH" Tag="H" Content="H" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterJ" Tag="J" Content="J" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterK" Tag="K" Content="K" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterL" Tag="L" Content="L" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button x:Name="btnLetterZ" Tag="Z" Content="Z" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterX" Tag="X" Content="X" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterC" Tag="C" Content="C" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterV" Tag="V" Content="V" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterB" Tag="B" Content="B" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterN" Tag="N" Content="N" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+                <Button x:Name="btnLetterM" Tag="M" Content="M" Click="btnLetter_Click" IsEnabled="False" Margin="2.5,0"/>
+            </StackPanel>
+        </StackPanel>
+
 
 
 
