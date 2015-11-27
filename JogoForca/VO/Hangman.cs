@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Jorge Luiz Andrade
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
